@@ -10,4 +10,6 @@ session_destroy();
 // Redirect the user to the login page or any other page as needed
 header("Location: sign-in.php"); // Replace "login.php" with the appropriate page
 exit;
+
+
 ?>
