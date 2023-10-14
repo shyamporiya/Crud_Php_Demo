@@ -1,5 +1,18 @@
-<?php include "header.php"; ?>
-
+<?php 
+session_start();
+include "header.php"; ?>
+<style>
+  body{
+    background-color:#233140 !important;
+  }
+  .success{
+    color: #ea1a1a;
+    font-style: revert;
+    font-weight: 700;
+    font-size: 31px;
+    background-color: darkblue;
+  }
+</style>
 <section class="main_section">
 
 
@@ -7,49 +20,55 @@
 
 
     <div class="row center_form">
-      <form id="student_form" action="save.php" method="POST" enctype="multipart/form-data">
+        <?php 
+if (isset($_SESSION['success'])) {?>
+     <div class="text-center">
+      <div class="success"><?php echo $_SESSION['success']; ?> </div>
+      </div>
+  <?php  unset($_SESSION['success']); } ?>
+     
+      <form id="signup-form" action="save.php" method="POST" enctype="multipart/form-data">
         <h3><b>Create Account</b></h3>
         <div class="row">
           <div class="col-md-12 mb-2">
-            <?php $value_f = isset($row['f_name'])!='' ? $row['f_name']: ''; ?>
             <div class="">
               <input type="hidden" name="update_id" value="" />
               <label class="form-label">First name</label>
-              <input type="text" id="f_name" name="f_name" class="form-control" value="<?php echo $value_f ;?>"
+              <input type="text" id="f_name" name="f_name" class="form-control" value=""
                 required="true" />
             </div>
           </div>
-          <?php $value_l = isset($row['l_name'])!='' ? $row['l_name']: ''; ?>
+         
           <div class="col-md-12 mb-2">
             <div class="form-outline">
               <label class="form-label">Last name</label>
-              <input type="text" id="l_name" name="l_name" class="form-control" value="<?php echo $value_l ?>" />
+              <input type="text" id="l_name" name="l_name" class="form-control" value="" />
 
             </div>
           </div>
           <div class="col-md-12 mb-2">
             <div class="form-outline">
               <label class="form-label">Email</label>
-              <input type="text" id="email" name="email" class="form-control" value="<?php echo $value_l ?>" />
+              <input type="email" id="email" name="email" class="form-control" value="" />
 
             </div>
           </div>
           <div class="col-md-12 mb-2">
             <div class="form-outline">
               <label class="form-label">Mobile</label>
-              <input type="text" id="mobile" name="mobile" class="form-control" value="<?php echo $value_l ?>" />
+              <input type="text" id="mobile" name="mobile" class="form-control" value="" />
 
             </div>
           </div>
           <div class="col-md-12 mb-2">
             <div class="form-outline">
               <label class="form-label">Password</label>
-              <input type="text" id="password" name="password" class="form-control" value="<?php echo $value_l ?>" />
+              <input type="password" id="password" name="password" class="form-control" value="" />
 
             </div>
           </div>
         </div>
-        <?php $value_m = isset($row['mothers_name'])!='' ? $row['mothers_name']: ''; ?>
+        
         <div class="row">
           <div class="col-md-12 mb-2">
             <div class="form-outline">
@@ -65,7 +84,7 @@
       </form>
       <div class="pt-3">
         <span class="btn sign-in-btn bg-grey" style="color:yellow">Already Have an Account</span>
-        <a href="sign-in.php" class="btn btn-light sign-in-btn">Sign In</a>
+        <a href="login.php" class="btn btn-light sign-in-btn">Sign In</a>
       </div>
 
 
@@ -75,3 +94,61 @@
   </div>
 </section>
 <?php include "footer.php"; ?>
+<script>
+    $(document).ready(function () {
+      $.validator.addMethod("customemail", 
+    function(value, element) {
+        return /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(value);
+    }, 
+    "Enter A Valid Email address"
+);
+        $("#signup-form").validate({
+            rules: {
+                f_name: {
+                    required: true,
+                },
+                l_name: {
+                    required: true,
+                },
+                 email: {
+                        required:  {
+                                depends:function(){
+                                    $(this).val($.trim($(this).val()));
+                                    return true;
+                                }   
+                            },
+                        customemail: true
+                    },
+                mobile: {
+                    required: true,
+                },
+                password: {
+                    required: true,
+                },
+                image: {
+                    required: true,
+                },
+            },
+            messages: {
+                f_name: {
+                    required: "Please enter First Name",
+                },
+                l_name: {
+                    required: "Please enter your Last Name",
+                },
+                email: {
+                    required: "Please enter your Email",
+                },
+                mobile: {
+                    required: "Please enter your Mobile No",
+                },
+                password: {
+                    required: "Please enter your password",
+                },
+                image: {
+                    required: "Please Upload your image",
+                },
+            },
+        });
+    });
+</script>

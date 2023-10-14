@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -25,7 +27,7 @@ $sql = "INSERT INTO `sign_ups`(`fname`, `lname`,`email`,`mobile`,`password`,`ima
 $result = mysqli_query($conn,$sql);
   //  print_r($result);
 if($result){
-         echo "success";
+         $_SESSION['success'] = "Sign Up Successfully";
         header("Location:create_account.php"); 
     }
 
